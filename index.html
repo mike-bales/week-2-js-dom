@@ -16,7 +16,7 @@
       background: linear-gradient(to bottom, #337ab7 0%, #135a97 100%);
       color: white;
       padding: 1em 0 2em;
-    }
+    } 
     #data-table td {
       width: 14.2%;
       /* The table has four columns, so this rule makes them of equal width. */
@@ -38,20 +38,27 @@
 <div class="controls section">
   <div class="container">
     <div class="btn-toolbar">
-      <div class="btn-group">
-        <button type="button" class="btn btn-default" id="sort-clinton">Clinton</button>
-        <button type="button" class="btn btn-default" id="sort-sanders">Sanders</button>
+      <div class="btn-group" data-toggle="buttons">
+        
+        <!-- I'm not sure why the radio butons aren't staying in their visual checked state. It works functionally but not visually.-->
+        <label class="btn btn-default">
+          <input type="radio" name="options" id="sort-clinton" autocomplete="off">Clinton
+        </label>
+        <label class="btn btn-default">
+          <input type="radio" name="options" id="sort-sanders" autocomplete="off">Sanders
+        </label>
       </div>
+
       <div class="btn-group">
         <button type="button" class="btn btn-default" id="sort-asc">Ascending</button>
         <button type="button" class="btn btn-default" id="sort-desc">Descending</button>
       </div>
     </div>
+
     <div class="btn-toolbar">
       <div class="btn-group">
-        <button type="button" class="btn btn-default" id="filter-es">Elementary</button>
-        <button type="button" class="btn btn-default" id="filter-ms">Middle</button>
-        <button type="button" class="btn btn-default" id="filter-hs">High</button>
+        <button type="button" class="btn btn-default" id="filter-es">Primary</button>
+        <button type="button" class="btn btn-default" id="filter-ms">Caucus</button>
       </div>
     </div>
   </div>
@@ -164,24 +171,25 @@
     // Make a copy of the data
     var data = dem_delegates.slice();
 
-    // Sort schools by enrollment
-    if (options.sorted) {
-      if (options.sorted === 'asc') {
-        data.sort(function (a, b) { return a.enrollment - b.enrollment; });
-        // This anonymous function is responsible for comparing two values a and b. If it returns a positive
-        // number, we're saying that a should come after b in the array. A negative number means that b
-        // should come after a. A zero means that the two are equal. This function is using the 'enrollment'
-        // property of each observation of data for this comparison. You'll need to change 'enrollment' to
-        // whatever property you want to sort your data on.
-        //
-        // Also, note that we're sorting the data in place, changing, or mutating, the 'data' variable. See
-        // the note in the README about how this compares to the filter() and slice() operations that we'll
-        // use for the next two data transforms.
-      } else if (options.sorted === 'desc') {
-        data.sort(function (a, b) { return b.enrollment - a.enrollment; });
-        // Note that this is just the opposite of the above.
+    // Sort election by delegat count and candidate
+    if (options.sorted && options.candidate) {
+
+      // Ascending sort
+      if (options.sorted === 'asc' && options.candidate === 'clinton') {
+        data.sort(function (a, b) { return a.Clinton - b.Clinton; });
+      }  
+       else if (options.sorted === 'asc' && options.candidate === 'sanders') {
+        data.sort(function (a, b) { return a.Sanders - b.Sanders; });
       }
-    }
+
+      // Descending sort
+       else if (options.sorted === 'desc' && options.candidate === 'clinton') {
+        data.sort(function (a, b) { return b.Clinton - a.Clinton; });
+      }
+       else if (options.sorted === 'desc' && options.candidate === 'sanders') {
+        data.sort(function (a, b) { return b.Sanders - a.Sanders; });
+      }
+    } 
 
     // Filter schools by grade level
 
@@ -250,21 +258,40 @@
 
   // This is creating an event listener, a function that the browser will call every time the specified
   // event is "fired" by the selected element (here the button with the id 'sort-asc').
+
+  // Sort Category Event Listeners
+  document.getElementById('sort-clinton').addEventListener('click', function () {
+    if (options.candidate === 'clinton') {
+      options.candidate = false;
+    } else {
+      options.candidate = 'clinton';
+      options.sorted = false;
+    }
+    updateTable();
+  });
+
+  document.getElementById('sort-sanders').addEventListener('click', function () {
+    if (options.candidate === 'sanders') {
+      options.candidate = false;
+    } else {
+      options.candidate = 'sanders';
+      options.sorted = false;
+    }
+    updateTable();
+  });
+
+// Sort direction listeners
   document.getElementById('sort-asc').addEventListener('click', function () {
-    // Disable the sort if 'asc' was previously selected, otherwise set the sort to 'asc'
     if (options.sorted === 'asc') {
       options.sorted = false;
     } else {
       options.sorted = 'asc';
     }
 
-    // And now we need to re-run the function that populates the table. Note that the results will be
-    // different because we've change the options object.
     updateTable();
   });
 
   document.getElementById('sort-desc').addEventListener('click', function () {
-    // Disable the sort if 'desc' was previously selected, otherwise set the sort to 'desc'
     if (options.sorted === 'desc') {
       options.sorted = false;
     } else {
@@ -277,6 +304,10 @@
   // This is where we'll need to create new event listeners for our filter and next/previous page buttons.
   // They'll look very similar to the above, just listening to different elements, and perhaps performing
   // different actions when clicked.
+
+
+
+
 </script>
 </body>
 </html>
