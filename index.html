@@ -57,8 +57,8 @@
 
     <div class="btn-toolbar">
       <div class="btn-group">
-        <button type="button" class="btn btn-default" id="filter-es">Primary</button>
-        <button type="button" class="btn btn-default" id="filter-ms">Caucus</button>
+        <button type="button" class="btn btn-default" id="filter-primary">Primary</button>
+        <button type="button" class="btn btn-default" id="filter-caucus">Caucus</button>
       </div>
     </div>
   </div>
@@ -171,7 +171,10 @@
     // Make a copy of the data
     var data = dem_delegates.slice();
 
-    // Sort election by delegat count and candidate
+    // Sort election by delegate count and candidate
+    // Is there a way to structure the code such that I don't need to add the "&& options.candidate === 'clinton'"?
+    // In something like SAS or R we could write the return statement like {return a.[options.candidate] - b.[options.candidate]}
+    // in order to filter on what we've already set as the filter criteria somewhere else.
     if (options.sorted && options.candidate) {
 
       // Ascending sort
@@ -191,7 +194,17 @@
       }
     } 
 
-    // Filter schools by grade level
+    // Filter by election type
+
+    if (options.filtered) {
+
+      if (options.filtered === 'primary') {
+        data = data.filter(function (d) {return d.Election_Type === 'Primary'});
+      }
+      else if (options.filtered === 'caucus') {
+        data = data.filter(function (d) {return d.Election_Type === 'Caucus'});
+      }
+    }
 
     // Select only the schools from the current page (slice)
 
@@ -305,8 +318,25 @@
   // They'll look very similar to the above, just listening to different elements, and perhaps performing
   // different actions when clicked.
 
+  document.getElementById('filter-primary').addEventListener('click', function () {
+    if (options.filtered === 'primary') {
+      options.filtered = false;
+    } else {
+      options.filtered = 'primary'
+    }
 
+    updateTable();
+  });
 
+  document.getElementById('filter-caucus').addEventListener('click', function () {
+    if (options.filtered === 'caucus') {
+      options.filtered = false;
+    } else {
+      options.filtered = 'caucus'
+    }
+
+    updateTable();
+  });
 
 </script>
 </body>
