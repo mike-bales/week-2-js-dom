@@ -244,6 +244,14 @@ console.log(demDelegates.length);
   // This is creating an event listener, a function that the browser will call every time the specified
   // event is "fired" by the selected element (here the button with the id "sort-asc").
 
+  function resetPage() {
+                options.page = 0;
+                d3.selectAll(".previous")
+                  .classed("disabled", true);
+                d3.selectAll(".next")
+                  .classed("disabled", false);  
+  }
+
   // Sort Category Event Listeners
    d3.select("#sort-clinton")
     .on("click", function(){
@@ -281,6 +289,9 @@ console.log(demDelegates.length);
         .classed("disabled", false)
         .classed("active", true);        
     }
+
+    resetPage();
+
     updateTable();
   });
 
@@ -320,6 +331,9 @@ console.log(demDelegates.length);
         .classed("disabled", false)
         .classed("active", true);     
     }
+
+    resetPage();
+
     updateTable();
   });
 
@@ -334,6 +348,8 @@ console.log(demDelegates.length);
 
       d3.select("#sort-desc")
         .classed("active", false);  
+
+      resetPage();
     } 
 
     updateTable();
@@ -349,6 +365,9 @@ console.log(demDelegates.length);
 
       d3.select("#sort-asc")
         .classed("active", false);  
+
+      resetPage();  
+
     } 
     updateTable();
   });
@@ -376,6 +395,8 @@ console.log(demDelegates.length);
         .classed("active", false);
     }
 
+    resetPage();
+
     updateTable();
   });
 
@@ -398,16 +419,22 @@ console.log(demDelegates.length);
         .classed("active", false);
     }
 
+    resetPage();
+
     updateTable();
   });
 
   // Pagination button wiring
   d3.select("#page-next")  
     .on("click", function() {
+
+    if (options.page < Math.ceil((demDelegates.length/options.obsPerPage) - 1)) { 
     options.page = options.page + 1; 
 
     d3.selectAll(".previous")
       .classed("disabled", false);
+    }
+
 
     if (options.page === Math.ceil((demDelegates.length/options.obsPerPage) - 1)) {
       d3.selectAll(".next")
@@ -420,11 +447,14 @@ console.log(demDelegates.length);
 
   d3.select("#page-prev")  
     .on("click", function() {
+
+    if (options.page > 0)  { 
     options.page = options.page - 1; 
 
     d3.selectAll(".next")
       .classed("disabled", false);
-
+    }
+    
     if (options.page === 0) {
       d3.selectAll(".previous")
         .classed("disabled", true);
