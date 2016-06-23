@@ -147,7 +147,7 @@
 {"state":"Nevada","date":"February 20","clinton":20,"sanders":15,"electiontype":"Caucus","openclosed":"Closed"},
 {"state":"New Hampshire","date":"February 09","clinton":9,"sanders":15,"electiontype":"Primary","openclosed":"Semi-closed"},
 {"state":"Iowa","date":"February 01","clinton":23,"sanders":21,"electiontype":"Caucus","openclosed":"Semi-open"}];
-console.log(demDelegates.length);
+
   // The ALL_CAPS treatment here is signalling that this variable is a constant - it should never change.
   var TOTAL_DELEGATES = 4051;
 
@@ -165,7 +165,8 @@ console.log(demDelegates.length);
     sorted: false,
     filtered: false,
     page: 0,
-    obsPerPage: 10
+    obsPerPage: 10,
+    totalObs: demDelegates.length
   };
 
    var tbody = d3.select("tbody")
@@ -200,7 +201,11 @@ console.log(demDelegates.length);
         data = data.filter(function (d) {return d.electiontype === options.filtered});
    }
 
-    // Split dataframe into pages of 10 observations
+    // Set options.totalObs to current view of data
+
+    options.totalObs = data.length;
+
+    // Split dataframe into pages of by options.obsPerPage
 
     data = data.slice(options.page * options.obsPerPage, (options.page + 1) * options.obsPerPage);
 
@@ -428,7 +433,7 @@ console.log(demDelegates.length);
   d3.select("#page-next")  
     .on("click", function() {
 
-    if (options.page < Math.ceil((demDelegates.length/options.obsPerPage) - 1)) { 
+    if (options.page < Math.ceil((options.totalObs/options.obsPerPage) - 1)) { 
     options.page = options.page + 1; 
 
     d3.selectAll(".previous")
@@ -436,7 +441,7 @@ console.log(demDelegates.length);
     }
 
 
-    if (options.page === Math.ceil((demDelegates.length/options.obsPerPage) - 1)) {
+    if (options.page === Math.ceil((options.totalObs/options.obsPerPage) - 1)) {
       d3.selectAll(".next")
         .classed("disabled", true);
     }
