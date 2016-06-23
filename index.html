@@ -196,7 +196,7 @@
     // Filter by election type
 
     if (options.filtered) {
-        data = data.filter(function (d) {return d.electiontype === options.filter});
+        data = data.filter(function (d) {return d.electiontype === options.filtered});
    }
 
 
@@ -353,21 +353,45 @@
   // They"ll look very similar to the above, just listening to different elements, and perhaps performing
   // different actions when clicked.
 
-  d3.select() {
+  d3.select("#filter-primary")
+    .on("click", function() {
     if (options.filtered === "Primary") {
+
       options.filtered = false;
+
+      d3.select("#filter-primary")
+        .classed("active", false);
+
     } else {
-      options.filtered = "Primary"
+      options.filtered = "Primary";
+
+      d3.select("#filter-primary")
+        .classed("active", true);
+
+      d3.select("#filter-caucus")
+        .classed("active", false);
     }
 
     updateTable();
   });
 
-  document.getElementById("filter-caucus").addEventListener("click", function () {
+  d3.select("#filter-caucus")
+    .on("click", function() {
     if (options.filtered === "Caucus") {
+
       options.filtered = false;
+
+      d3.select("#filter-caucus")
+        .classed("active", false);
+
     } else {
-      options.filtered = "Caucus"
+      options.filtered = "Caucus";
+
+      d3.select("#filter-caucus")
+        .classed("active", true);
+
+      d3.select("#filter-primary")
+        .classed("active", false);
     }
 
     updateTable();
