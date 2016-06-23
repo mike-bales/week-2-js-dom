@@ -23,7 +23,7 @@
     }
     .bar {
       height: 20px;
-      /* Note that we'll set the width dynamically using Javascript. */
+      /* Note that we"ll set the width dynamically using Javascript. */
       background: #337ab7;
     }
   </style>
@@ -40,18 +40,18 @@
     <div class="btn-toolbar">
       <div class="btn-group" data-toggle="buttons">
         
-        <!-- I'm not sure why the radio butons aren't staying in their visual checked state. It works functionally but not visually.-->
-        <label class="btn btn-default">
+        <!-- I"m not sure why the radio butons aren"t staying in their visual checked state. It works functionally but not visually.-->
+        <label class="btn btn-default" id="sort-clinton-label">
           <input type="radio" name="options" id="sort-clinton" autocomplete="off">Clinton
         </label>
-        <label class="btn btn-default">
+        <label class="btn btn-default" id="sort-sanders-label">
           <input type="radio" name="options" id="sort-sanders" autocomplete="off">Sanders
         </label>
       </div>
 
       <div class="btn-group">
-        <button type="button" class="btn btn-default" id="sort-asc">Ascending</button>
-        <button type="button" class="btn btn-default" id="sort-desc">Descending</button>
+        <button type="button" class="btn btn-default disabled" id="sort-asc">Ascending</button>
+        <button type="button" class="btn btn-default disabled" id="sort-desc">Descending</button>
       </div>
     </div>
 
@@ -74,7 +74,7 @@
           <th>Sanders</th>
           <th>Election Type</th>
           <th>Open/Closed</th>
-          <th>State's Percent of Total Delegates</th>
+          <th>State"s Percent of Total Delegates</th>
         </tr>
       </thead>
       <tbody>
@@ -90,73 +90,73 @@
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 <script>
-  var dem_delegates = [{"State":"District of Columbia","Date":"June 14","Clinton":16,"Sanders":4,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"California","Date":"June 07","Clinton":269,"Sanders":206,"Election_Type":"Primary","Open_Closed":"Semi-closed"},
-{"State":"Montana","Date":"June 07","Clinton":10,"Sanders":11,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"New Jersey","Date":"June 07","Clinton":79,"Sanders":47,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"North Dakota","Date":"June 07","Clinton":5,"Sanders":13,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"New Mexico","Date":"June 07","Clinton":18,"Sanders":16,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"South Dakota","Date":"June 07","Clinton":10,"Sanders":10,"Election_Type":"Primary","Open_Closed":"Semi-open"},
-{"State":"Puerto Rico","Date":"June 05","Clinton":36,"Sanders":24,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Virgin Islands","Date":"June 04","Clinton":7,"Sanders":0,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Oregon","Date":"May 17","Clinton":25,"Sanders":36,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Kentucky","Date":"May 17","Clinton":28,"Sanders":27,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"West Virginia","Date":"May 10","Clinton":11,"Sanders":18,"Election_Type":"Primary","Open_Closed":"Semi-closed"},
-{"State":"Guam","Date":"May 07","Clinton":4,"Sanders":3,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Indiana","Date":"May 03","Clinton":39,"Sanders":44,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Rhode Island","Date":"April 26","Clinton":11,"Sanders":13,"Election_Type":"Primary","Open_Closed":"Semi-closed"},
-{"State":"Pennsylvania","Date":"April 26","Clinton":106,"Sanders":83,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Delaware","Date":"April 26","Clinton":12,"Sanders":9,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Connecticut","Date":"April 26","Clinton":28,"Sanders":27,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Maryland","Date":"April 26","Clinton":60,"Sanders":35,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"New York","Date":"April 19","Clinton":139,"Sanders":108,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Wyoming","Date":"April 09","Clinton":7,"Sanders":7,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Wisconsin","Date":"April 05","Clinton":38,"Sanders":48,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Washington","Date":"March 26","Clinton":27,"Sanders":74,"Election_Type":"Caucus","Open_Closed":"Open"},
-{"State":"Hawaii","Date":"March 26","Clinton":8,"Sanders":17,"Election_Type":"Caucus","Open_Closed":"Semi-closed"},
-{"State":"Alaska","Date":"March 26","Clinton":3,"Sanders":13,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Utah","Date":"March 22","Clinton":6,"Sanders":27,"Election_Type":"Caucus","Open_Closed":"Semi-open"},
-{"State":"Idaho","Date":"March 22","Clinton":5,"Sanders":18,"Election_Type":"Caucus","Open_Closed":"Open"},
-{"State":"Arizona","Date":"March 22","Clinton":42,"Sanders":33,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Ohio","Date":"March 15","Clinton":81,"Sanders":62,"Election_Type":"Primary","Open_Closed":"Semi-open"},
-{"State":"North Carolina","Date":"March 15","Clinton":60,"Sanders":47,"Election_Type":"Primary","Open_Closed":"Semi-closed"},
-{"State":"Missouri","Date":"March 15","Clinton":36,"Sanders":35,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Illinois","Date":"March 15","Clinton":79,"Sanders":77,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Florida","Date":"March 15","Clinton":141,"Sanders":73,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Northern Marianas","Date":"March 12","Clinton":4,"Sanders":2,"Election_Type":"N/A","Open_Closed":"N/A"},
-{"State":"Michigan","Date":"March 08","Clinton":63,"Sanders":67,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Mississippi","Date":"March 08","Clinton":31,"Sanders":5,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Maine","Date":"March 06","Clinton":8,"Sanders":17,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Kansas","Date":"March 05","Clinton":10,"Sanders":23,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Nebraska","Date":"March 05","Clinton":10,"Sanders":15,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Louisiana","Date":"March 05","Clinton":37,"Sanders":14,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Virginia","Date":"March 01","Clinton":62,"Sanders":33,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Vermont","Date":"March 01","Clinton":0,"Sanders":16,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Texas","Date":"March 01","Clinton":147,"Sanders":75,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Tennessee","Date":"March 01","Clinton":44,"Sanders":23,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Oklahoma","Date":"March 01","Clinton":17,"Sanders":21,"Election_Type":"Primary","Open_Closed":"Semi-closed"},
-{"State":"Minnesota","Date":"March 01","Clinton":31,"Sanders":46,"Election_Type":"Caucus","Open_Closed":"Open"},
-{"State":"Massachusetts","Date":"March 01","Clinton":46,"Sanders":45,"Election_Type":"Primary","Open_Closed":"Semi-closed"},
-{"State":"Georgia","Date":"March 01","Clinton":73,"Sanders":29,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Democrats Abroad","Date":"March 1-8","Clinton":4,"Sanders":9,"Election_Type":"Primary","Open_Closed":"Closed"},
-{"State":"Colorado","Date":"March 01","Clinton":25,"Sanders":41,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Arkansas","Date":"March 01","Clinton":22,"Sanders":10,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"American Samoa","Date":"March 01","Clinton":4,"Sanders":2,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"Alabama","Date":"March 01","Clinton":44,"Sanders":9,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"South Carolina","Date":"February 27","Clinton":39,"Sanders":14,"Election_Type":"Primary","Open_Closed":"Open"},
-{"State":"Nevada","Date":"February 20","Clinton":20,"Sanders":15,"Election_Type":"Caucus","Open_Closed":"Closed"},
-{"State":"New Hampshire","Date":"February 09","Clinton":9,"Sanders":15,"Election_Type":"Primary","Open_Closed":"Semi-closed"},
-{"State":"Iowa","Date":"February 01","Clinton":23,"Sanders":21,"Election_Type":"Caucus","Open_Closed":"Semi-open"}];
+  var demDelegates = [{"state":"District of Columbia","date":"June 14","clinton":16,"sanders":4,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"California","date":"June 07","clinton":269,"sanders":206,"electiontype":"Primary","openclosed":"Semi-closed"},
+{"state":"Montana","date":"June 07","clinton":10,"sanders":11,"electiontype":"Primary","openclosed":"Open"},
+{"state":"New Jersey","date":"June 07","clinton":79,"sanders":47,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"North Dakota","date":"June 07","clinton":5,"sanders":13,"electiontype":"Primary","openclosed":"Open"},
+{"state":"New Mexico","date":"June 07","clinton":18,"sanders":16,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"South Dakota","date":"June 07","clinton":10,"sanders":10,"electiontype":"Primary","openclosed":"Semi-open"},
+{"state":"Puerto Rico","date":"June 05","clinton":36,"sanders":24,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Virgin Islands","date":"June 04","clinton":7,"sanders":0,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Oregon","date":"May 17","clinton":25,"sanders":36,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Kentucky","date":"May 17","clinton":28,"sanders":27,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"West Virginia","date":"May 10","clinton":11,"sanders":18,"electiontype":"Primary","openclosed":"Semi-closed"},
+{"state":"Guam","date":"May 07","clinton":4,"sanders":3,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Indiana","date":"May 03","clinton":39,"sanders":44,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Rhode Island","date":"April 26","clinton":11,"sanders":13,"electiontype":"Primary","openclosed":"Semi-closed"},
+{"state":"Pennsylvania","date":"April 26","clinton":106,"sanders":83,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Delaware","date":"April 26","clinton":12,"sanders":9,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Connecticut","date":"April 26","clinton":28,"sanders":27,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Maryland","date":"April 26","clinton":60,"sanders":35,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"New York","date":"April 19","clinton":139,"sanders":108,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Wyoming","date":"April 09","clinton":7,"sanders":7,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Wisconsin","date":"April 05","clinton":38,"sanders":48,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Washington","date":"March 26","clinton":27,"sanders":74,"electiontype":"Caucus","openclosed":"Open"},
+{"state":"Hawaii","date":"March 26","clinton":8,"sanders":17,"electiontype":"Caucus","openclosed":"Semi-closed"},
+{"state":"Alaska","date":"March 26","clinton":3,"sanders":13,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Utah","date":"March 22","clinton":6,"sanders":27,"electiontype":"Caucus","openclosed":"Semi-open"},
+{"state":"Idaho","date":"March 22","clinton":5,"sanders":18,"electiontype":"Caucus","openclosed":"Open"},
+{"state":"Arizona","date":"March 22","clinton":42,"sanders":33,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Ohio","date":"March 15","clinton":81,"sanders":62,"electiontype":"Primary","openclosed":"Semi-open"},
+{"state":"North Carolina","date":"March 15","clinton":60,"sanders":47,"electiontype":"Primary","openclosed":"Semi-closed"},
+{"state":"Missouri","date":"March 15","clinton":36,"sanders":35,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Illinois","date":"March 15","clinton":79,"sanders":77,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Florida","date":"March 15","clinton":141,"sanders":73,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Northern Marianas","date":"March 12","clinton":4,"sanders":2,"electiontype":"N/A","openclosed":"N/A"},
+{"state":"Michigan","date":"March 08","clinton":63,"sanders":67,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Mississippi","date":"March 08","clinton":31,"sanders":5,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Maine","date":"March 06","clinton":8,"sanders":17,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Kansas","date":"March 05","clinton":10,"sanders":23,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Nebraska","date":"March 05","clinton":10,"sanders":15,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Louisiana","date":"March 05","clinton":37,"sanders":14,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Virginia","date":"March 01","clinton":62,"sanders":33,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Vermont","date":"March 01","clinton":0,"sanders":16,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Texas","date":"March 01","clinton":147,"sanders":75,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Tennessee","date":"March 01","clinton":44,"sanders":23,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Oklahoma","date":"March 01","clinton":17,"sanders":21,"electiontype":"Primary","openclosed":"Semi-closed"},
+{"state":"Minnesota","date":"March 01","clinton":31,"sanders":46,"electiontype":"Caucus","openclosed":"Open"},
+{"state":"Massachusetts","date":"March 01","clinton":46,"sanders":45,"electiontype":"Primary","openclosed":"Semi-closed"},
+{"state":"Georgia","date":"March 01","clinton":73,"sanders":29,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Democrats Abroad","date":"March 1-8","clinton":4,"sanders":9,"electiontype":"Primary","openclosed":"Closed"},
+{"state":"Colorado","date":"March 01","clinton":25,"sanders":41,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Arkansas","date":"March 01","clinton":22,"sanders":10,"electiontype":"Primary","openclosed":"Open"},
+{"state":"American Samoa","date":"March 01","clinton":4,"sanders":2,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"Alabama","date":"March 01","clinton":44,"sanders":9,"electiontype":"Primary","openclosed":"Open"},
+{"state":"South Carolina","date":"February 27","clinton":39,"sanders":14,"electiontype":"Primary","openclosed":"Open"},
+{"state":"Nevada","date":"February 20","clinton":20,"sanders":15,"electiontype":"Caucus","openclosed":"Closed"},
+{"state":"New Hampshire","date":"February 09","clinton":9,"sanders":15,"electiontype":"Primary","openclosed":"Semi-closed"},
+{"state":"Iowa","date":"February 01","clinton":23,"sanders":21,"electiontype":"Caucus","openclosed":"Semi-open"}];
 
   // The ALL_CAPS treatment here is signalling that this variable is a constant - it should never change.
   var TOTAL_DELEGATES = 4051;
 
-  // This is where we'll store the data representing user interaction; event handlers (the functions that
+  // This is where we"ll store the data representing user interaction; event handlers (the functions that
   // are called when a user clicks a button) work by updating the properties of this object. An alternative
   // approach, where each event handler directly updates the table, would quickly become messy. Imagine,
-  // for example, that I've filtered the table to just show elementary schools. Next, I sort the table to
-  // be in descending order. Finally, I unfilter the table to show all schools. If I'm not careful, the
-  // newly revealed schools will not be sorted, because the filter operation doesn't know how to sort.
+  // for example, that I"ve filtered the table to just show elementary schools. Next, I sort the table to
+  // be in descending order. Finally, I unfilter the table to show all schools. If I"m not careful, the
+  // newly revealed schools will not be sorted, because the filter operation doesn"t know how to sort.
   // Instead, updateTable() will sort, filter, and paginate based on whatever the options object contains,
   // always starting from a fresh copy of the data, and we can count on the result to be consistent
   // given the same values in options.
@@ -167,172 +167,207 @@
     page: 0
   };
 
+   var tbody = d3.select("tbody")
+
   function updateTable() {
-    // Make a copy of the data
-    var data = dem_delegates.slice();
+
+    var data = demDelegates.slice();
+
+    sort = d3.select("sort-asc");
 
     // Sort election by delegate count and candidate
-    // Is there a way to structure the code such that I don't need to add the "&& options.candidate === 'clinton'"?
+    // Is there a way to structure the code such that I don"t need to add the "&& options.candidate === "clinton""?
     // In something like SAS or R we could write the return statement like {return a.[options.candidate] - b.[options.candidate]}
-    // in order to filter on what we've already set as the filter criteria somewhere else.
+    // in order to filter on what we"ve already set as the filter criteria somewhere else.
     if (options.sorted && options.candidate) {
 
       // Ascending sort
-      if (options.sorted === 'asc' && options.candidate === 'clinton') {
-        data.sort(function (a, b) { return a.Clinton - b.Clinton; });
-      }  
-       else if (options.sorted === 'asc' && options.candidate === 'sanders') {
-        data.sort(function (a, b) { return a.Sanders - b.Sanders; });
-      }
-
+      if (options.sorted === "asc") {
+        data.sort(function (a, b) { return a[options.candidate] - b[options.candidate]; });
+       }
       // Descending sort
-       else if (options.sorted === 'desc' && options.candidate === 'clinton') {
-        data.sort(function (a, b) { return b.Clinton - a.Clinton; });
-      }
-       else if (options.sorted === 'desc' && options.candidate === 'sanders') {
-        data.sort(function (a, b) { return b.Sanders - a.Sanders; });
-      }
-    } 
+       else if (options.sorted === "desc") {
+        data.sort(function (a, b) { return b[options.candidate] - a[options.candidate]; });
+      } 
+    }
+
+
 
     // Filter by election type
 
     if (options.filtered) {
+        data = data.filter(function (d) {return d.electiontype === options.filter});
+   }
 
-      if (options.filtered === 'primary') {
-        data = data.filter(function (d) {return d.Election_Type === 'Primary'});
-      }
-      else if (options.filtered === 'caucus') {
-        data = data.filter(function (d) {return d.Election_Type === 'Caucus'});
-      }
-    }
-
-    // Select only the schools from the current page (slice)
-
-    var table = document.getElementById('data-table');
-    var tbody = table.getElementsByTagName('tbody')[0];
-    // Because getElementsByTagName returns an array of DOM nodes (technically, it's an HTMLCollection),
-    // we need to select the first item in the array with the [0].
 
     // Remove any existing rows
-    tbody.innerHTML = '';
+    tbody.html("");
 
-    // Add a new row for each datum (item in the 'data' array)
-    data.forEach(function (d) {
-      var row = document.createElement('tr');
-      // This is like create a new <tr></tr> in HTML, but it doesn't yet exist in the DOM, so we can't
-      // see it. At the bottom of this forEach() loop, we append it to an element that is in the DOM,
-      // at which point it appears. We'll follow this same pattern for each of the <td></td> elements
-      // we create below.
+    var rows = tbody.selectAll("tr")
+      .data(data)
+      .enter()
+      .append("tr");
 
-      var state = document.createElement('td');
-      state.innerHTML = d.State;
-      row.appendChild(state);
+    rows.append("td")
+      .html(function(d) { return d.state });
+    
+    rows.append("td")
+      .html(function(d) { return d.date });
 
-      var date = document.createElement('td');
-      date.innerHTML = d.Date;
-      row.appendChild(date);
+    rows.append("td")
+      .html(function(d) { return d.clinton });
 
-      var clinton = document.createElement('td');
-      clinton.innerHTML = d.Clinton;
-      row.appendChild(clinton);
+    rows.append("td")
+      .html(function(d) { return d.sanders });
 
-      var sanders = document.createElement('td');
-      sanders.innerHTML = d.Sanders;
-      row.appendChild(sanders);
+    rows.append("td")
+      .html(function(d) { return d.electiontype });  
 
-      var elec_type = document.createElement('td');
-      elec_type.innerHTML = d.Election_Type;
-      row.appendChild(elec_type);
+    rows.append("td")
+      .html(function(d) { return d.openclosed });     
+      
+    rows.append("td")
+      .append("div")
+      .classed("bar", true)
+      .style("width", function(d) { return ((d.clinton + d.sanders) / TOTAL_DELEGATES ) * 100 + "%" })
 
-      var openclose = document.createElement('td');
-      openclose.innerHTML = d.Open_Closed;
-      row.appendChild(openclose);
-
-      var barWrapper = document.createElement('td');
-      var bar = document.createElement('div');
-      bar.setAttribute('class', 'bar');
-      // We set the class to 'bar' so we can use the .bar class we have in our styles. This gives it a
-      // consistent height and a color.
-      var delegatePercentage = (d.Clinton + d.Sanders) / TOTAL_DELEGATES;
-      bar.setAttribute('style', 'width: ' + (delegatePercentage * 100) + '%;');
-      // I've broken this operation up into two steps, which is a little different than we did in class.
-      // The end result is the same, though. If 'enrollmentPercentage' equals 0.75, this set the style
-      // attribute of our DIV so that it looks something like <div style="width: 75%;"></div>
-      barWrapper.appendChild(bar);
-      row.appendChild(barWrapper);
-
-      tbody.appendChild(row);
-    });
   }
 
-  // The function declaration above just creates the function, it doesn't yet run it. That's what we
+  // The function declaration above just creates the function, it doesn"t yet run it. That"s what we
   // do here, to make sure that the table is populated prior to the user clicking anything.
   updateTable();
 
   // This is creating an event listener, a function that the browser will call every time the specified
-  // event is "fired" by the selected element (here the button with the id 'sort-asc').
+  // event is "fired" by the selected element (here the button with the id "sort-asc").
 
   // Sort Category Event Listeners
-  document.getElementById('sort-clinton').addEventListener('click', function () {
-    if (options.candidate === 'clinton') {
+   d3.select("#sort-clinton")
+    .on("click", function(){
+    if (options.candidate === "clinton") {
       options.candidate = false;
+
+      d3.select("#sort-clinton-label")
+        .classed("active", false);
+
+      d3.select("#sort-asc")
+        .classed("disabled", true)
+        .classed("active", false);
+
+      d3.select("#sort-desc")
+        .classed("disabled", true)
+        .classed("active", false);
+
+      options.sort = false;
     } else {
-      options.candidate = 'clinton';
-      options.sorted = false;
+      options.candidate = "clinton";
+
+      options.sorted = "desc";
+
+      d3.select("#sort-clinton-label")
+        .classed("active", true);
+
+      d3.select("#sort-sanders-label")
+        .classed("active", false);  
+
+      d3.select("#sort-asc")
+        .classed("disabled", false)
+        .classed("active", false);
+
+      d3.select("#sort-desc")
+        .classed("disabled", false)
+        .classed("active", true);        
     }
     updateTable();
   });
 
-  document.getElementById('sort-sanders').addEventListener('click', function () {
-    if (options.candidate === 'sanders') {
+   d3.select("#sort-sanders")
+    .on("click", function() {
+    if (options.candidate === "sanders") {
       options.candidate = false;
+
+      d3.select("#sort-sanders-label")
+        .classed("active", false);
+
+      d3.select("#sort-asc")
+        .classed("disabled", true)
+        .classed("active", false);
+
+      d3.select("#sort-desc")
+        .classed("disabled", true)
+        .classed("active", false);
+
+      options.sort = false;
     } else {
-      options.candidate = 'sanders';
-      options.sorted = false;
+      options.candidate = "sanders";
+
+      options.sorted = "desc";
+
+      d3.select("#sort-sanders-label")
+        .classed("active", true);
+
+      d3.select("#sort-clinton-label")
+        .classed("active", false);  
+
+      d3.select("#sort-asc")
+        .classed("disabled", false)
+        .classed("active", false);
+
+      d3.select("#sort-desc")
+        .classed("disabled", false)
+        .classed("active", true);     
     }
     updateTable();
   });
 
 // Sort direction listeners
-  document.getElementById('sort-asc').addEventListener('click', function () {
-    if (options.sorted === 'asc') {
-      options.sorted = false;
-    } else {
-      options.sorted = 'asc';
-    }
+   d3.select("#sort-asc")
+     .on("click", function(){
+    if (options.sorted != "asc") {
+      options.sorted = "asc";
+
+      d3.select("#sort-asc")
+        .classed("active", true);
+
+      d3.select("#sort-desc")
+        .classed("active", false);  
+    } 
 
     updateTable();
   });
 
-  document.getElementById('sort-desc').addEventListener('click', function () {
-    if (options.sorted === 'desc') {
-      options.sorted = false;
-    } else {
-      options.sorted = 'desc';
-    }
+  d3.select("#sort-desc")
+    .on("click", function() {
+    if (options.sorted != "desc") {
+      options.sorted = "desc";
 
+      d3.select("#sort-desc")
+        .classed("active", true);
+
+      d3.select("#sort-asc")
+        .classed("active", false);  
+    } 
     updateTable();
   });
 
-  // This is where we'll need to create new event listeners for our filter and next/previous page buttons.
-  // They'll look very similar to the above, just listening to different elements, and perhaps performing
+  // This is where we"ll need to create new event listeners for our filter and next/previous page buttons.
+  // They"ll look very similar to the above, just listening to different elements, and perhaps performing
   // different actions when clicked.
 
-  document.getElementById('filter-primary').addEventListener('click', function () {
-    if (options.filtered === 'primary') {
+  d3.select() {
+    if (options.filtered === "Primary") {
       options.filtered = false;
     } else {
-      options.filtered = 'primary'
+      options.filtered = "Primary"
     }
 
     updateTable();
   });
 
-  document.getElementById('filter-caucus').addEventListener('click', function () {
-    if (options.filtered === 'caucus') {
+  document.getElementById("filter-caucus").addEventListener("click", function () {
+    if (options.filtered === "Caucus") {
       options.filtered = false;
     } else {
-      options.filtered = 'caucus'
+      options.filtered = "Caucus"
     }
 
     updateTable();
