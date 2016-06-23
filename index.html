@@ -82,7 +82,7 @@
     </table>
     <nav>
       <ul class="pager">
-        <li class="previous"><a href="#" id="page-prev">Previous</a></li>
+        <li class="previous disabled"><a href="#" id="page-prev">Previous</a></li>
         <li class="next"><a href="#" id="page-next">Next</a></li>
       </ul>
     </nav>
@@ -147,7 +147,7 @@
 {"state":"Nevada","date":"February 20","clinton":20,"sanders":15,"electiontype":"Caucus","openclosed":"Closed"},
 {"state":"New Hampshire","date":"February 09","clinton":9,"sanders":15,"electiontype":"Primary","openclosed":"Semi-closed"},
 {"state":"Iowa","date":"February 01","clinton":23,"sanders":21,"electiontype":"Caucus","openclosed":"Semi-open"}];
-
+console.log(demDelegates.length);
   // The ALL_CAPS treatment here is signalling that this variable is a constant - it should never change.
   var TOTAL_DELEGATES = 4051;
 
@@ -164,7 +164,8 @@
     candidate: false,
     sorted: false,
     filtered: false,
-    page: 0
+    page: 0,
+    obsPerPage: 10
   };
 
    var tbody = d3.select("tbody")
@@ -199,6 +200,9 @@
         data = data.filter(function (d) {return d.electiontype === options.filtered});
    }
 
+    // Split dataframe into pages of 10 observations
+
+    data = data.slice(options.page * options.obsPerPage, (options.page + 1) * options.obsPerPage);
 
     // Remove any existing rows
     tbody.html("");
@@ -396,6 +400,39 @@
 
     updateTable();
   });
+
+  // Pagination button wiring
+  d3.select("#page-next")  
+    .on("click", function() {
+    options.page = options.page + 1; 
+
+    d3.selectAll(".previous")
+      .classed("disabled", false);
+
+    if (options.page === Math.ceil((demDelegates.length/options.obsPerPage) - 1)) {
+      d3.selectAll(".next")
+        .classed("disabled", true);
+    }
+
+    updateTable(); 
+
+    });
+
+  d3.select("#page-prev")  
+    .on("click", function() {
+    options.page = options.page - 1; 
+
+    d3.selectAll(".next")
+      .classed("disabled", false);
+
+    if (options.page === 0) {
+      d3.selectAll(".previous")
+        .classed("disabled", true);
+    }
+
+    updateTable(); 
+
+    });  
 
 </script>
 </body>
